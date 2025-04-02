@@ -1,2 +1,2 @@
-print("Hello my friends")
-print("To entendendo nada")
+Hello my friends
+to entendendo nada que ele fala 
