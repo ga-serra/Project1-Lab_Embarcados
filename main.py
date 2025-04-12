@@ -1,5 +1,6 @@
 # ========================= Bibliotecas ============================
 import peripherals.led_matrix as ledmat
+from game import Game
 
 from machine import Pin
 from utime import sleep
@@ -14,8 +15,9 @@ led_blue = Pin(13, Pin.OUT) # azul
 def main():
     setup()
 
-    ledmat.write(2,2)
-    print(randint(1, 10))
+    # ledmat.write(2,2)
+    game = Game(2)
+    game.run()
 
 
 # ========================= Funções ==========================
