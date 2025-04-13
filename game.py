@@ -2,16 +2,25 @@ from random import randint
 import time
 
 import peripherals.led_matrix as ledmat
+import peripherals.oled as oled
+
 
 class Game:
     def __init__(self, speed=1):
         self.level = 0
         self.speed = speed
         self.sequence = list()
+        
+        self.x_cursor = 0
+        self.y_cursor = 0
 
         self.increase_level()
 
+
     def run(self):
+        # Comandos do display.
+        oled.send_message_clear("Iniciar jogo?", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
+
         for i in range(0, 28):
             self.increase_level()
 
@@ -27,6 +36,7 @@ class Game:
             time.sleep(1)
 
             sequence_index += 1
+
 
     def increase_level(self):
         if(self.level >= 25):
@@ -46,3 +56,11 @@ class Game:
                 new_point = 0
 
         self.sequence.append(new_point)
+
+
+    def get_user_input():
+        ...
+
+
+    def update():
+        ...
