@@ -1,9 +1,12 @@
 from random import randint
 import time
 
+from machine import Pin
 import peripherals.led_matrix as ledmat
 import peripherals.oled as oled
 
+button_white = Pin(5, Pin.IN, Pin.PULL_UP)
+button_blue = Pin(6, Pin.IN, Pin.PULL_UP)
 
 class Game:
     def __init__(self, speed=1):
@@ -14,6 +17,8 @@ class Game:
         self.x_cursor = 0
         self.y_cursor = 0
 
+        self.state = 'IDLE'
+
         self.increase_level()
 
 
@@ -21,7 +26,7 @@ class Game:
         # Comandos do display.
         oled.send_message_clear("Iniciar jogo?", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
 
-        for i in range(0, 28):
+        for i in range(0, 4):
             self.increase_level()
 
         print(f"Speed: {self.speed}, Level: {self.level}")
@@ -29,14 +34,7 @@ class Game:
         sequence_index = 0
 
         while True:
-            if(sequence_index >= len(self.sequence)):
-                sequence_index = 0
-
-            ledmat.blink_single_index(self.sequence[sequence_index])
-            time.sleep(1)
-
-            sequence_index += 1
-
+            self.get_user_input()
 
     def increase_level(self):
         if(self.level >= 25):
@@ -58,9 +56,16 @@ class Game:
         self.sequence.append(new_point)
 
 
-    def get_user_input():
-        ...
+    def get_user_input(self):
+        if self.state == 'IDLE':
+            if button_blue.value() == 0:
+                self.state = 'SHOWING_SEQUENCE'
 
+        elif self.state == 'SHOWING_SEQUENCE':
+            for led_index in self.sequence:
+                ledmat.blink_single_index(led_index)
 
-    def update():
-        ...
+            self.state = 'IDLE'
+
+        elif self.state == 'PLAYER_MOVE':
+            
