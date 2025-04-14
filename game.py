@@ -122,7 +122,7 @@ class Game:
                         if self.level < self.max_level:
                             ledmat.clear()
                             led_green.value(1)
-                            music.play_yeah()
+                            music.play_super_yeah()
                             led_green.value(0)
                             self.increase_level()
 
@@ -131,13 +131,14 @@ class Game:
                             self.send_victory_message()
                             ledmat.clear()
                             led_green.value(1)
-                            music.play_yeah()
+                            music.play_victory()
                             led_green.value(0)
 
                             self.restart()
                     else:
                         ledmat.clear()
                         led_blue.value(1)
+                        music.play_yeah()
                         time.sleep(0.5)
                         led_blue.value(0)
 
@@ -187,8 +188,6 @@ class Game:
         oled.display.fill(0)
         oled.display.text(f"Nivel maximo: {self.max_level}", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
         oled.display.text(f"Nivel: {self.level}", 0, 10) # Segundo, escreve "Ola, Mundo!" no centro do display.
-        oled.display.text("botao para jogar", 0, 20) # Segundo, escreve "Ola, Mundo!" no centro do display.
-        oled.display.text("novamente", 0, 30) # Segundo, escreve "Ola, Mundo!" no centro do display.
         oled.display.show()
 
 

@@ -49,7 +49,7 @@ class Music:
 
         self._play(melody, durations)
 
-    def play_yeah(self):
+    def play_super_yeah(self):
             # Notas da melodia (em Hz)
         D5 = 587
         C5 = 523
@@ -81,15 +81,13 @@ class Music:
         durations = [
             350, 350, 350,
             250, 1000, 350,
-            250, 1000, 350,
-            350, 350, 350,
             250, 1000, 250, 1000,
             1000
         ]
 
         self._play(melody, durations)
 
-    def play_super_yeah(self):
+    def play_yeah(self):
         C5 = 523
         E5 = 659
         G5 = 784
@@ -100,8 +98,7 @@ class Music:
             self.REST, G5, C6
         ]
         durations = [
-            200, 200, 200, 400,
-            200, 200, 600
+            200, 400,
         ]
 
         self._play(melody, durations)
@@ -113,8 +110,7 @@ class Music:
             self.REST, 330
         ]
         durations = [
-            150, 150, 150, 150, 100, 100,
-            100, 500
+            100, 100, 500
         ]
 
         self._play(melody, durations)
