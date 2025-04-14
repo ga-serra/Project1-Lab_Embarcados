@@ -14,20 +14,7 @@ led_red = Pin(12, Pin.OUT) #vermelho
 led_green = Pin(11, Pin.OUT) # verde
 led_blue = Pin(13, Pin.OUT) # azul
 
-def send_start_message():
-    oled.display.fill(0)
-    oled.display.text("Pressione ", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
-    oled.display.text("qualquer botao", 0, 10) # Segundo, escreve "Ola, Mundo!" no centro do display.
-    oled.display.text("para iniciar", 0, 20) # Segundo, escreve "Ola, Mundo!" no centro do display.
-    oled.display.show()
 
-def send_death_message():
-    oled.display.fill(0)
-    oled.display.text("Voce perdeu...", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
-    oled.display.text("Pressione o", 0, 10) # Segundo, escreve "Ola, Mundo!" no centro do display.
-    oled.display.text("botao para jogar", 0, 20) # Segundo, escreve "Ola, Mundo!" no centro do display.
-    oled.display.text("novamente", 0, 30) # Segundo, escreve "Ola, Mundo!" no centro do display.
-    oled.display.show()
 
 
 music = buzzer.Music()
@@ -49,9 +36,20 @@ class Game:
         self.increase_level()
 
 
-    def run(self):
-        send_start_message()
+    def restart(self):
+        self.level = 0
+        self.sequence = list()
+        
+        self.x_cursor = 2
+        self.y_cursor = 2
 
+        self.player_points = 0
+
+        self.state = 'IDLE'
+
+        self.increase_level()
+
+    def run(self):
         print(f"Speed: {self.speed}, Level: {self.level}")
         print(f"Current Sequence: {self.sequence}")
         sequence_index = 0
@@ -81,9 +79,21 @@ class Game:
 
     def get_user_input(self):
         if self.state == 'IDLE':
+            self.send_start_message()
+            dir = joystick.direction()
             if button_blue.value() == 0:
                 self.state = 'SHOWING_SEQUENCE'
                 music.play_ini()
+
+            if dir != 'none':
+                if dir == 'up' and self.max_level < 25:
+                    self.max_level += 1
+                    self.send_start_message()
+                    time.sleep(0.2)
+                elif dir == 'down' and self.max_level > 1:
+                    self.max_level -= 1
+                    self.send_start_message()
+                    time.sleep(0.2)
 
         elif self.state == 'SHOWING_SEQUENCE':
             for led_index in self.sequence:
@@ -108,15 +118,23 @@ class Game:
                     if self.player_points == self.level - 1:
                         self.x_cursor = 2
                         self.y_cursor = 2
-                        ledmat.clear()
-                        led_green.value(1)
-                        music.play_yeah()
-                        time.sleep(0.5)
-                        led_green.value(0)
-                        self.increase_level()
                         self.player_points = 0
+                        if self.level < self.max_level:
+                            ledmat.clear()
+                            led_green.value(1)
+                            music.play_yeah()
+                            led_green.value(0)
+                            self.increase_level()
 
-                        self.state = 'SHOWING_SEQUENCE'
+                            self.state = 'SHOWING_SEQUENCE'
+                        else:
+                            self.send_victory_message()
+                            ledmat.clear()
+                            led_green.value(1)
+                            music.play_yeah()
+                            led_green.value(0)
+
+                            self.restart()
                     else:
                         ledmat.clear()
                         led_blue.value(1)
@@ -124,25 +142,16 @@ class Game:
                         led_blue.value(0)
 
                         self.player_points += 1
+
                 else:
-                    send_death_message()
+                    self.send_death_message()
                     music.play_dumb()
                     led_red.value(1)
                     time.sleep(0.5)
                     led_red.value(0)
                     ledmat.clear()
 
-                    self.level = 0
-                    self.sequence = list()
-                    
-                    self.x_cursor = 2
-                    self.y_cursor = 2
-
-                    self.player_points = 0
-
-                    self.state = 'IDLE'
-
-                    self.increase_level()
+                    self.restart()
 
 
 
@@ -163,11 +172,36 @@ class Game:
             if self.y_cursor < 4:
                 self.y_cursor += 1
 
+
+    def send_start_message(self):
+        oled.display.fill(0)
+        oled.display.text("Pressione", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.text("qualquer botao", 0, 10) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.text("para iniciar.", 0, 20) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.text("Escolha o nivel", 0, 40) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.text(f"maximo: {self.max_level}", 0, 50) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.show()
+
+
     def show_current_status(self):
         oled.display.fill(0)
         oled.display.text(f"Nivel maximo: {self.max_level}", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
         oled.display.text(f"Nivel: {self.level}", 0, 10) # Segundo, escreve "Ola, Mundo!" no centro do display.
         oled.display.text("botao para jogar", 0, 20) # Segundo, escreve "Ola, Mundo!" no centro do display.
         oled.display.text("novamente", 0, 30) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.show()
+
+
+    def send_death_message(self):
+        oled.display.fill(0)
+        oled.display.text("Voce perdeu...", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.text("Pressione o", 0, 10) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.text("botao para jogar", 0, 20) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.text("novamente", 0, 30) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.show()
+
+    def send_victory_message(self):
+        oled.display.fill(0)
+        oled.display.text("Voce ganhou!", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
         oled.display.show()
 
