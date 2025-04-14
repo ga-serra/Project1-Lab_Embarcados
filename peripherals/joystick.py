@@ -11,12 +11,12 @@ def direction():
     y_val = joy_y.read_u16()
 
     if x_val > adc_max:
-        return 'esq'
+        return 'left'
     elif x_val < adc_min:
-        return 'dir'
+        return 'right'
     elif y_val > adc_max:
-        return 'baixo'
+        return 'down'
     elif y_val < adc_min:
-        return 'cima'
+        return 'up'
     else: 
         return 'none'

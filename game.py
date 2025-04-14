@@ -13,6 +13,21 @@ led_red = Pin(12, Pin.OUT) #vermelho
 led_green = Pin(11, Pin.OUT) # verde
 led_blue = Pin(13, Pin.OUT) # azul
 
+def send_start_message():
+    oled.display.fill(0)
+    oled.display.text("Pressione ", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
+    oled.display.text("qualquer botao", 0, 10) # Segundo, escreve "Ola, Mundo!" no centro do display.
+    oled.display.text("para iniciar", 0, 20) # Segundo, escreve "Ola, Mundo!" no centro do display.
+    oled.display.show()
+
+def send_death_message():
+    oled.display.fill(0)
+    oled.display.text("Voce perdeu...", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
+    oled.display.text("Pressione o", 0, 10) # Segundo, escreve "Ola, Mundo!" no centro do display.
+    oled.display.text("botao para jogar", 0, 20) # Segundo, escreve "Ola, Mundo!" no centro do display.
+    oled.display.text("novamente", 0, 30) # Segundo, escreve "Ola, Mundo!" no centro do display.
+    oled.display.show()
+
 class Game:
     def __init__(self, speed=1):
         self.level = 0
@@ -30,8 +45,7 @@ class Game:
 
 
     def run(self):
-        # Comandos do display.
-        oled.send_message_clear("Iniciar jogo?", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        send_start_message()
 
         print(f"Speed: {self.speed}, Level: {self.level}")
         print(f"Current Sequence: {self.sequence}")
@@ -73,24 +87,20 @@ class Game:
             ledmat.write(self.y_cursor, self.x_cursor)
 
         elif self.state == 'PLAYER_MOVE':
-            # oled.display.fill(0)
-            # oled.display.text("Boa sorte!", 0, 0)
-            # oled.display.text(f"Level: {self.level}", 0, 20)
-            # oled.display.show()
-            #
+            ledmat.write(self.y_cursor, self.x_cursor, 5, 5, 40)
             dir = joystick.direction()
             if dir != 'none':
                 self.walk_cursor(dir)
                 ledmat.clear()
-                ledmat.write(self.y_cursor, self.x_cursor, 20, 20, 160)
+                ledmat.write(self.y_cursor, self.x_cursor, 5, 5, 40)
                 time.sleep(0.2)
             
             if button_blue.value() == 0:
                 right_pos = self.sequence[self.player_points]
                 if(ledmat.single_index(self.y_cursor, self.x_cursor) == right_pos):
-                    self.x_cursor = 2
-                    self.y_cursor = 2
                     if self.player_points == self.level - 1:
+                        self.x_cursor = 2
+                        self.y_cursor = 2
                         ledmat.clear()
                         led_green.value(1)
                         time.sleep(0.5)
@@ -107,10 +117,12 @@ class Game:
 
                         self.player_points += 1
                 else:
-                    oled.send_message_clear("Se fudeu", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
+                    send_death_message()
                     led_red.value(1)
                     time.sleep(0.5)
                     led_red.value(0)
+                    ledmat.clear()
+
                     self.level = 0
                     self.sequence = list()
                     
@@ -126,19 +138,19 @@ class Game:
 
 
     def walk_cursor(self, direction):
-        if direction == 'dir':
+        if direction == 'right':
             if self.x_cursor < 4:
                 self.x_cursor += 1
 
-        elif direction == 'esq':
+        elif direction == 'left':
             if self.x_cursor > 0:
                 self.x_cursor -= 1
 
-        elif direction == 'cima':
+        elif direction == 'up':
             if self.y_cursor > 0:
                 self.y_cursor -= 1
 
-        elif direction == 'baixo':
+        elif direction == 'down':
             if self.y_cursor < 4:
                 self.y_cursor += 1
 
