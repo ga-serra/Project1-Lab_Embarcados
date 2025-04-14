@@ -108,8 +108,13 @@ class Music:
     
     def play_dumb(self):
     
-        melody = [500, 1000, 1500, 2000]
-    
-        durations = [50, 50, 50, 50] 
+        melody = [
+            880, 698, 587, 494, 392, 330,
+            self.REST, 330
+        ]
+        durations = [
+            150, 150, 150, 150, 100, 100,
+            100, 500
+        ]
 
         self._play(melody, durations)
