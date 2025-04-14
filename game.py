@@ -5,6 +5,7 @@ from machine import Pin, ADC
 import peripherals.led_matrix as ledmat
 import peripherals.oled as oled
 import peripherals.joystick as joystick
+import peripherals.buzzer as buzzer
 
 button_white = Pin(5, Pin.IN, Pin.PULL_UP)
 button_blue = Pin(6, Pin.IN, Pin.PULL_UP)
@@ -28,8 +29,12 @@ def send_death_message():
     oled.display.text("novamente", 0, 30) # Segundo, escreve "Ola, Mundo!" no centro do display.
     oled.display.show()
 
+
+music = buzzer.Music()
+
 class Game:
     def __init__(self, speed=1):
+        self.max_level = 5
         self.level = 0
         self.speed = speed
         self.sequence = list()
@@ -55,7 +60,7 @@ class Game:
             self.get_user_input()
 
     def increase_level(self):
-        if(self.level >= 25):
+        if(self.level >= self.max_level):
             print("Maximum level reached.")
             return
 
@@ -78,6 +83,7 @@ class Game:
         if self.state == 'IDLE':
             if button_blue.value() == 0:
                 self.state = 'SHOWING_SEQUENCE'
+                music.play_ini()
 
         elif self.state == 'SHOWING_SEQUENCE':
             for led_index in self.sequence:
@@ -88,6 +94,7 @@ class Game:
 
         elif self.state == 'PLAYER_MOVE':
             ledmat.write(self.y_cursor, self.x_cursor, 5, 5, 40)
+            self.show_current_status()
             dir = joystick.direction()
             if dir != 'none':
                 self.walk_cursor(dir)
@@ -103,6 +110,7 @@ class Game:
                         self.y_cursor = 2
                         ledmat.clear()
                         led_green.value(1)
+                        music.play_yeah()
                         time.sleep(0.5)
                         led_green.value(0)
                         self.increase_level()
@@ -118,6 +126,7 @@ class Game:
                         self.player_points += 1
                 else:
                     send_death_message()
+                    music.play_dumb()
                     led_red.value(1)
                     time.sleep(0.5)
                     led_red.value(0)
@@ -153,4 +162,12 @@ class Game:
         elif direction == 'down':
             if self.y_cursor < 4:
                 self.y_cursor += 1
+
+    def show_current_status(self):
+        oled.display.fill(0)
+        oled.display.text(f"Nivel maximo: {self.max_level}", 0, 0) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.text(f"Nivel: {self.level}", 0, 10) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.text("botao para jogar", 0, 20) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.text("novamente", 0, 30) # Segundo, escreve "Ola, Mundo!" no centro do display.
+        oled.display.show()
 

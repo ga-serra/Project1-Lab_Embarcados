@@ -11,7 +11,7 @@ class Music:
         for note, duration in zip(melody, durations):
             if note != self.REST:
                 self.buzzer.freq(note)
-                self.buzzer.duty_u16(30000)
+                self.buzzer.duty_u16(700)
             else:
                 self.buzzer.duty_u16(0)
             time.sleep(duration / 1000)
@@ -57,7 +57,7 @@ class Music:
         G4 = 392
 
         melody = [D5, C5, A4, G4]
-        durations = [0.25, 0.25, 0.25, 0.5]  # Cada nota dura um quarto de segundo
+        durations = [250, 250, 250, 250]  # Cada nota dura um quarto de segundo
 
         self._play(melody, durations)
     
