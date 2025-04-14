@@ -60,6 +60,51 @@ class Music:
         durations = [250, 250, 250, 250]  # Cada nota dura um quarto de segundo
 
         self._play(melody, durations)
+
+    def play_victory(self):
+        G  = 392
+        A5 = 880
+        E5 = 659
+        C5 = 523
+        B4 = 494
+        F5 = 698
+
+        melody = [
+            A5, A5, A5,
+            F5, C5, A5,
+            F5, C5, A5,
+            E5, E5, E5,
+            F5, C5, G, B4,
+            C5
+        ]
+
+        durations = [
+            350, 350, 350,
+            250, 1000, 350,
+            250, 1000, 350,
+            350, 350, 350,
+            250, 1000, 250, 1000,
+            1000
+        ]
+
+        self._play(melody, durations)
+
+    def play_super_yeah(self):
+        C5 = 523
+        E5 = 659
+        G5 = 784
+        C6 = 1047
+
+        melody = [
+            C5, E5, G5, C6,
+            self.REST, G5, C6
+        ]
+        durations = [
+            200, 200, 200, 400,
+            200, 200, 600
+        ]
+
+        self._play(melody, durations)
     
     def play_dumb(self):
     
