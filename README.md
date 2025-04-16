@@ -31,4 +31,5 @@ O projeto utilizará os seguintes componentes da placa BitDogLab:
 
 • Display OLED.
 
-## ArquivosO repositório está organizado de forma simples e modular. O arquivo principal é o main.py, que é o ponto de partida do jogo — é só rodar ele pra começar a jogar. Toda a lógica do jogo está no game.py, que cuida das regras, estados e do fluxo geral, como explicado no tópico de funcionamento. Já a pasta peripherals/ contém os arquivos responsáveis por fazer os periféricos funcionarem corretamente, cada um com sua função separada. Essa estrutura deixa o projeto mais organizado e fácil de entender ou modificar depois.
+## Arquivos
+O repositório está organizado de forma simples e modular. O arquivo principal é o main.py, que é o ponto de partida do jogo — é só rodar ele pra começar a jogar. Toda a lógica do jogo está no game.py, que cuida das regras, estados e do fluxo geral, como explicado no tópico de funcionamento. Já a pasta peripherals/ contém os arquivos responsáveis por fazer os periféricos funcionarem corretamente, cada um com sua função separada. Essa estrutura deixa o projeto mais organizado e fácil de entender ou modificar depois.
