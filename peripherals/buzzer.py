@@ -11,7 +11,7 @@ class Music:
         for note, duration in zip(melody, durations):
             if note != self.REST:
                 self.buzzer.freq(note)
-                self.buzzer.duty_u16(700)
+                self.buzzer.duty_u16(1500)
             else:
                 self.buzzer.duty_u16(0)
             time.sleep(duration / 1000)
