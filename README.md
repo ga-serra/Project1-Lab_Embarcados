@@ -3,6 +3,7 @@
 Jogos que envolvem memorização contribuem para o desenvolvimento cognitivo e socioemocional de crianças e adultos. Eles estimulam diversas áreas do cérebro, como a memória visual, a capacidade de percepção espacial, o foco e a tomada de decisões rápidas. Dessa forma, este projeto tem como objetivo criar um jogo que estimule a memória por meio de desafios visuais. Com o uso de LEDs, espera-se que ele possa ser acessível também para pessoas mais velhas, pois elementos luminosos podem facilitar a visualização e a diferenciação dos padrões.
 ## Funcionamento
 O projeto deve cumprir os seguintes requisitos:
+
 • A sequência de LEDs deve ser aleatória a cada rodada. Ela é mostrada em branco, piscando na sequência a ser replicada pelo jogador.
 • Para iniciar o jogo, o jogador seleciona até que nível deseja jogar colocando o joystick para cima e/ou para baixo, incrementando/decrementanado assim o nível. Esse nível a ser definido pode ser acompnhado pelo display OLED.Para confirmar, clicamos qualquer um dos botões. Então, ele pressiona qualquer um dos botões e o jogo se inicia.
 • O jogador poderá mover um cursor pela matriz de LEDs utilizando o joystick, e sele-
