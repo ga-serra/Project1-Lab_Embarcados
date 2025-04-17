@@ -10,9 +10,9 @@ import peripherals.buzzer as buzzer
 button_white = Pin(5, Pin.IN, Pin.PULL_UP)
 button_blue = Pin(6, Pin.IN, Pin.PULL_UP)
 
-led_red = Pin(12, Pin.OUT) #vermelho
+led_red = Pin(13, Pin.OUT) # azul
 led_green = Pin(11, Pin.OUT) # verde
-led_blue = Pin(13, Pin.OUT) # azul
+led_blue = Pin(12, Pin.OUT) #vermelho
 
 music = buzzer.Music()
 

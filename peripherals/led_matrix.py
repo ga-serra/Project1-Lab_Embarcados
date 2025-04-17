@@ -16,7 +16,7 @@ LED_MATRIX_IDX = [
 ]
 
 def single_index(i, j):
-    return LED_MATRIX_IDX[4-i][j]
+    return LED_MATRIX_IDX[i][j]
 
 def blink_single_index(i, interval=1, r=20, g=20, b=20):
     write_single_index(i, r, g, b)
