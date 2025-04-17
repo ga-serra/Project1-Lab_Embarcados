@@ -1,9 +1,9 @@
 from random import randint
 import time
 
-from machine import Pin, ADC
+from machine import Pin, ADC, SoftI2C
+import ssd1306
 import peripherals.led_matrix as ledmat
-import peripherals.oled as oled
 import peripherals.joystick as joystick
 import peripherals.buzzer as buzzer
 
@@ -15,6 +15,9 @@ led_green = Pin(11, Pin.OUT) # verde
 led_blue = Pin(12, Pin.OUT) #vermelho
 
 music = buzzer.Music()
+
+i2c_oled = SoftI2C(scl=Pin(15), sda=Pin(14))
+oled = ssd1306.SSD1306_I2C(128, 64, i2c_oled)
 
 class Game:
     # @brief Construtor do jogo
@@ -265,39 +268,39 @@ class Game:
 
 
     def oled_send_start_message(self):
-        oled.display.fill(0)
-        oled.display.text("Pressione", 0, 0)
-        oled.display.text("qualquer botao", 0, 10)
-        oled.display.text("para iniciar.", 0, 20)
-        oled.display.text("Escolha o nivel", 0, 40)
-        oled.display.text(f"maximo: {self.max_level}", 0, 50)
-        oled.display.show()
+        oled.fill(0)
+        oled.text("Pressione", 0, 0)
+        oled.text("qualquer botao", 0, 10)
+        oled.text("para iniciar.", 0, 20)
+        oled.text("Escolha o nivel", 0, 40)
+        oled.text(f"maximo: {self.max_level}", 0, 50)
+        oled.show()
 
 
     def oled_show_current_status(self):
-        oled.display.fill(0)
-        oled.display.text(f"Nivel maximo: {self.max_level}", 0, 0)
-        oled.display.text(f"Nivel: {self.level}", 0, 10)
-        oled.display.show()
+        oled.fill(0)
+        oled.text(f"Nivel maximo: {self.max_level}", 0, 0)
+        oled.text(f"Nivel: {self.level}", 0, 10)
+        oled.show()
 
 
     def oled_send_death_message(self):
-        oled.display.fill(0)
-        oled.display.text("Voce perdeu...", 0, 0)
-        oled.display.show()
+        oled.fill(0)
+        oled.text("Voce perdeu...", 0, 0)
+        oled.show()
 
 
     def oled_send_loss_message(self):
-        oled.display.fill(0)
-        oled.display.text("Voce perdeu...", 0, 0)
-        oled.display.text("Pressione o", 0, 10)
-        oled.display.text("botao para jogar", 0, 20)
-        oled.display.text("novamente", 0, 30)
-        oled.display.text(f"Nivel maximo: {self.max_level}", 0, 50)
-        oled.display.show()
+        oled.fill(0)
+        oled.text("Voce perdeu...", 0, 0)
+        oled.text("Pressione o", 0, 10)
+        oled.text("botao para jogar", 0, 20)
+        oled.text("novamente", 0, 30)
+        oled.text(f"Nivel maximo: {self.max_level}", 0, 50)
+        oled.show()
 
     def oled_send_victory_message(self):
-        oled.display.fill(0)
-        oled.display.text("Voce ganhou!", 0, 0)
-        oled.display.show()
+        oled.fill(0)
+        oled.text("Voce ganhou!", 0, 0)
+        oled.show()
 

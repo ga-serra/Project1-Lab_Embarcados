@@ -18,6 +18,7 @@ class Music:
             self.buzzer.duty_u16(0)
             time.sleep(0.05)
 
+    # @brief Esta música tocará quando o jogador iniciar o jogo
     def play_ini(self):
         # Notas necessárias
         E6  = 1319
@@ -49,6 +50,26 @@ class Music:
 
         self._play(melody, durations)
 
+
+    # @brief Esta música tocará quando o jogador acertar
+    def play_yeah(self):
+        C5 = 523
+        E5 = 659
+        G5 = 784
+        C6 = 1047
+
+        melody = [
+            C5, E5, G5, C6,
+            self.REST, G5, C6
+        ]
+        durations = [
+            200, 400,
+        ]
+
+        self._play(melody, durations)
+
+
+    # @brief Esta música tocará quando o jogador passar de nível
     def play_super_yeah(self):
             # Notas da melodia (em Hz)
         D5 = 587
@@ -61,6 +82,8 @@ class Music:
 
         self._play(melody, durations)
 
+
+    # @brief Esta música tocará quando o jogador ganhar
     def play_victory(self):
         G  = 392
         A5 = 880
@@ -87,22 +110,8 @@ class Music:
 
         self._play(melody, durations)
 
-    def play_yeah(self):
-        C5 = 523
-        E5 = 659
-        G5 = 784
-        C6 = 1047
-
-        melody = [
-            C5, E5, G5, C6,
-            self.REST, G5, C6
-        ]
-        durations = [
-            200, 400,
-        ]
-
-        self._play(melody, durations)
     
+    # @brief Esta música tocará quando o jogador perder
     def play_dumb(self):
     
         melody = [

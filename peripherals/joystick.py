@@ -6,6 +6,7 @@ joy_x = ADC(Pin(27))
 adc_min = 1000
 adc_max = 45535
 
+# @brief Retorna uma string indicando para que direção o usuário moveu o joystick
 def direction():
     x_val = joy_x.read_u16()
     y_val = joy_y.read_u16()
