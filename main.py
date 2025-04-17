@@ -15,11 +15,7 @@ led_red = Pin(13, Pin.OUT) # azul
 def main():
     setup()
 
-    # led_red.value(1) #azul
-    # led_blue.value(1) #vermelho
-    # led_green.value(1)
-    # ledmat.write(2,2)
-    game = Game(2)
+    game = Game(led_time=1)
     game.run()
 
 
